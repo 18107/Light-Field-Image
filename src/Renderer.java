@@ -4,25 +4,40 @@ public class Renderer {
 
 	public BufferedImage generate(World world, float centreX, float centreY, float centreZ,
 			float radius, int yResolution, int angleResolution) {
-		BufferedImage image = new BufferedImage(yResolution*2/*angleResolution*/,
-				yResolution/*angleResolution*/, BufferedImage.TYPE_INT_RGB);
+		int progress = 0;
+		int progressLast = -1;
+		
+		BufferedImage image = new BufferedImage(yResolution*2*angleResolution,
+				yResolution*angleResolution, BufferedImage.TYPE_INT_RGB);
 		
 		for (int yPix = 0; yPix < yResolution; yPix++) {
+			progress = (int)(yPix/(float)yResolution*100);
+			if (progress != progressLast) {
+				progressLast = progress;
+				System.out.println(progress + "%");
+			}
 			double yRadians = yPix/(float)(yResolution-1)*Math.PI-Math.PI/2;
 			float yPos = centreY + radius*(float)(Math.sin(yRadians));
 			for (int xPix = 0; xPix < yResolution*2; xPix++) {
 				double xRadians = xPix/(float)(yResolution*2)*2*Math.PI-Math.PI;
 				float xPos = centreX + radius*(float)(Math.sin(xRadians)*Math.cos(yRadians));
 				float zPos = centreZ + radius*(float)(Math.cos(xRadians)*Math.cos(yRadians));
-				/*for (int yAng = 0; yAng < angleResolution; yAng++) {
+				for (int yAng = 0; yAng < angleResolution; yAng++) {
+					double yR = Math.sin(yAng/(float)(angleResolution-1)*Math.PI-Math.PI/2);
 					for (int xAng = 0; xAng < angleResolution; xAng++) {
-						
+						double xR = Math.sin(xAng/(float)(angleResolution-1)*Math.PI-Math.PI/2);
+						byte[] pixel = trace(world.getWorld(), world.getWorldSize(),
+								xPos, yPos, zPos, (float)(xRadians+xR), (float)(yRadians+yR));
+						image.setRGB(xPix*angleResolution + xAng,
+								(yResolution*angleResolution-1) - (yPix*angleResolution + yAng),
+								(pixel[0]&255)<<16 | (pixel[1]&255)<<8 | (pixel[2]&255));
 					}
-				}*/
-				byte[] pixel = trace(world.getWorld(), world.getWorldSize(), xPos, yPos, zPos, (float)xRadians, (float)yRadians);
-				image.setRGB(xPix, yResolution-yPix-1, (pixel[0]&255)<<16 | (pixel[1]&255)<<8 | (pixel[2]&255));
+				}
+				//byte[] pixel = trace(world.getWorld(), world.getWorldSize(), xPos, yPos, zPos, (float)xRadians, (float)yRadians);
+				//image.setRGB(xPix, yResolution-yPix-1, (pixel[0]&255)<<16 | (pixel[1]&255)<<8 | (pixel[2]&255));
 			}
 		}
+		System.out.println("100%");
 		
 		return image;
 	}
