@@ -1,3 +1,4 @@
+package generate;
 
 public class World {
 
