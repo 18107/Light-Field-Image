@@ -30,7 +30,7 @@ public class Renderer {
 						byte[] pixel = trace(world.getWorld(), world.getWorldSize(),
 								xPos, yPos, zPos, (float)(xRadians+xR), (float)(yRadians+yR));
 						image.setRGB(xPix*angleResolution + xAng,
-								(yResolution*angleResolution-1) - (yPix*angleResolution + yAng),
+								yPix*angleResolution + yAng,
 								(pixel[0]&255)<<16 | (pixel[1]&255)<<8 | (pixel[2]&255));
 					}
 				}

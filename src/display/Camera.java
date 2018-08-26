@@ -42,8 +42,8 @@ public class Camera {
 			else if (rx > 90) rx = 90;
 		}
 		
-		this.x += 0.25f*(Math.cos(Math.toRadians(ry)) * x - Math.sin(Math.toRadians(ry)) * z);
-		this.y += 0.25f*y;
-		this.z += 0.25f*(Math.cos(Math.toRadians(ry)) * z + Math.sin(Math.toRadians(ry)) * x);
+		this.x += 0.125f*(Math.cos(Math.toRadians(ry)) * x - Math.sin(Math.toRadians(ry)) * z);
+		this.y += 0.125f*y;
+		this.z += 0.125f*(Math.cos(Math.toRadians(ry)) * z + Math.sin(Math.toRadians(ry)) * x);
 	}
 }
