@@ -41,7 +41,7 @@ public class Main {
 		int program = shaders.getProgram();
 		Camera camera = new Camera();
 		display.Renderer renderer = new display.Renderer();
-		renderer.init(program, bBuffer, image.getWidth(), image.getHeight());
+		renderer.init(bBuffer, image.getWidth(), image.getHeight());
 		
 		System.out.println("Loaded");
 		
